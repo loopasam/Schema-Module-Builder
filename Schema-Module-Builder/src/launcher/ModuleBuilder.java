@@ -16,8 +16,6 @@ import parser.ParsingException;
  */
 public class ModuleBuilder {
     
-    //TODO: redondant properties for the grovvy template views
-    
     public static void main(String[] args) throws IOException, ParsingException, OWLOntologyCreationException {
 	
 	System.out.println("Starting parsing...");
@@ -29,9 +27,9 @@ public class ModuleBuilder {
 	System.out.println("Print distribution of types in order to manually convert to map some to Java objects.");
 	parser.printDistributions("distributions.txt");
 	System.out.println("Export classes...");
-	parser.saveSerializedClasses("/home/samuel/workspace/schema/app/models/schema");
+	parser.saveSerializedClasses("/home/samuel/git/schema/app/models/schema");
 	System.out.println("Export tags...");
-	parser.saveSerializedTags("/home/samuel/workspace/schema/app/views/tags/schema");	
+	parser.saveSerializedTags("/home/samuel/git/schema/app/views/tags/schema");	
 	System.out.println("Done!");
     }
 

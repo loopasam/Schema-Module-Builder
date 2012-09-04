@@ -60,14 +60,13 @@ public class SchemaType {
 
     public void printJavaClass(PrintWriter pw, String version) {
 	pw.append("package models.schema;\n\n");
-	pw.append("import play.db.jpa.Model;\n\n");
 	pw.append("import java.util.*;\n\n");
 	pw.append("/**\n");
 	pw.append("* " + this.getComment() + "\n");
 	pw.append("* Auto-generated class ("+ version +") - More info about this type: http://schema.org/" + this.getName() + "\n");
 	pw.append( "*/\n");
 
-	pw.append("public class " + this.getName() + " extends Model {\n");
+	pw.append("public class " + this.getName() + " {\n");
 	Set<SchemaProperty> visited = new HashSet<SchemaProperty>();
 	for (SchemaProperty currentProperty : this.getProperties()) {
 	    visited.add(currentProperty);
@@ -160,6 +159,7 @@ public class SchemaType {
     }
 
     public void printPlayTag(PrintWriter pw) {
+	
 
 	for (SchemaProperty currentProperty : this.getProperties()) {
 	    printTagProperty(currentProperty, pw);
@@ -185,13 +185,13 @@ public class SchemaType {
 	}
     }
 
-    //TODO put a <div clas="whatever"></div>
+
     private void printTagProperty(SchemaProperty currentProperty, PrintWriter pw) {
 	boolean hasBeenConvertedInString = false;
 	for (SchemaType currentRange : currentProperty.getRanges()) {
 	    if(!hasBeenConvertedInString){
 
-		pw.append("*{" + currentProperty.getComment() +"}*\n");
+		pw.append("\t*{" + currentProperty.getComment() +"}*\n");
 
 		String propertyName = currentProperty.getPropertyName();
 		String propertyNameSingular = currentProperty.getPropertyName();
@@ -200,33 +200,33 @@ public class SchemaType {
 
 		if(currentProperty.isPlural()){
 		    propertyNameSingular = propertyName.substring(0, propertyName.length() - 1 );
-		    pw.append("#{list items:_arg."+ propertyName +", as:'"+ propertyNameSingular +"'}\n");
+		    pw.append("\t#{list items:_arg."+ propertyName +", as:'"+ propertyNameSingular +"'}\n");
 		    singularSpacer = "";
 		}
 
 
 		if(currentRange.getName().equals("Text") || currentRange.getName().equals("URL")){
 		    hasBeenConvertedInString = true;
-		    pw.append("<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
+		    pw.append("\t<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
 		}else if(currentRange.getName().equals("Number")){
-		    pw.append("<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
+		    pw.append("\t<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
 		}else if(currentRange.getName().equals("Boolean")){
-		    pw.append("<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
+		    pw.append("\t<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
 		}else if(currentRange.getName().equals("Duration")){
-		    pw.append("<time itemprop=\"" + propertyNameSingular+ "\" datetime=\"${"+singularSpacer + propertyNameSingular + "}\">${"+ singularSpacer + propertyNameSingular + "}</time>\n");
+		    pw.append("\t<time itemprop=\"" + propertyNameSingular+ "\" datetime=\"${"+singularSpacer + propertyNameSingular + "}\">${"+ singularSpacer + propertyNameSingular + "}</time>\n");
 		}else if(currentRange.getName().equals("Integer")){
-		    pw.append("<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
+		    pw.append("\t<span itemprop=\""+ propertyNameSingular +"\">${"+singularSpacer+""+ propertyNameSingular +"}</span>\n");
 		}else if(currentRange.getName().equals("Date")){
-		    pw.append("<time itemprop=\"" + propertyNameSingular+ "\" datetime=\"${"+singularSpacer + propertyNameSingular + ".format('yyyy-MM-dd')}\">${"+ singularSpacer + propertyNameSingular + ".format('yyyy-MM-dd')}</time>\n");
+		    pw.append("\t<time itemprop=\"" + propertyNameSingular+ "\" datetime=\"${"+singularSpacer + propertyNameSingular + ".format('yyyy-MM-dd')}\">${"+ singularSpacer + propertyNameSingular + ".format('yyyy-MM-dd')}</time>\n");
 		}
 		else{
-		    pw.append("<div itemprop=\"" + propertyNameSingular + "\" itemscope itemtype=\"http://schema.org/"+currentRange.getName()+"\">\n");
-		    pw.append("\t#{"+currentRange.getName()+" "+ singularSpacer + propertyNameSingular+" /}\n");
-		    pw.append("</div>\n");
+		    pw.append("\t<div itemprop=\"" + propertyNameSingular + "\" itemscope itemtype=\"http://schema.org/"+currentRange.getName()+"\">\n");
+		    pw.append("\t\t#{"+currentRange.getName()+" "+ singularSpacer + propertyNameSingular+" /}\n");
+		    pw.append("\t</div>\n");
 		}
 
 		if(currentProperty.isPlural()){
-		    pw.append("#{/list}\n");
+		    pw.append("\t#{/list}\n");
 		}
 		pw.append("\n");
 

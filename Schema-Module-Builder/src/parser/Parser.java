@@ -282,13 +282,13 @@ public class Parser {
 
 	for (SchemaType type : schema.getTypes()) {
 	    if(type.getComment() == null){
-		type.setComment("No documentation available :-(");
+		type.setComment("No documentation available");
 	    }
 	}
 
 	for (SchemaProperty property : schema.getProperties()) {
 	    if(property.getComment() == null){
-		property.setComment("No documentation available :-(");
+		property.setComment("No documentation available");
 	    }
 	}
 
