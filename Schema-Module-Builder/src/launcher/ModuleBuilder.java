@@ -27,6 +27,7 @@ public class ModuleBuilder {
 	System.out.println("Print distribution of types in order to manually convert to map some to Java objects.");
 	parser.printDistributions("distributions.txt");
 	System.out.println("Export classes...");
+	//Destination of the classes, here directly inside the module
 	parser.saveSerializedClasses("/home/samuel/git/schema/app/models/schema");
 	System.out.println("Export tags...");
 	parser.saveSerializedTags("/home/samuel/git/schema/app/views/tags/schema");	
